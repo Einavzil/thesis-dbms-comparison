@@ -95,7 +95,6 @@ def mongo_worker(operation, stop_event, results, db_factory):
                     results.append(duration)
             except Exception as e:
                 print(f"Error occurred in MongoDB worker: {e}")
-                pass
     finally:
         db.client.close()
 

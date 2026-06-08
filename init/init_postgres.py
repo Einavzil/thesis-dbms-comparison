@@ -419,7 +419,7 @@ def setup_id_sequence(cur):
     cur.execute(f"CREATE SEQUENCE IF NOT EXISTS comment_id_seq")
     cur.execute(f"CREATE SEQUENCE IF NOT EXISTS post_id_seq")
 
-    cur.execute("ALTER TABLE comments ALTER COLUMN Id SET DEFAULT nextval(comment_id_seq')")
+    cur.execute("ALTER TABLE comments ALTER COLUMN Id SET DEFAULT nextval('comment_id_seq')")
     cur.execute("ALTER TABLE posts ALTER COLUMN Id SET DEFAULT nextval('post_id_seq')")
 
     cur.execute("SELECT COALESCE(MAX(Id), 0) FROM comments")
