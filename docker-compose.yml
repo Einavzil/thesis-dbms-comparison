@@ -1,0 +1,39 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: thesis_postgres
+    environment:
+      POSTGRES_USER: thesis
+      POSTGRES_PASSWORD: thesis
+      POSTGRES_DB: stackoverflow
+      POSTGRES_HOST_AUTH_METHOD: md5
+    ports:
+      - "127.0.0.1:5432:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U thesis -d stackoverflow"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+  mongodb:
+    image: mongo:7
+    container_name: thesis_mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: thesis
+      MONGO_INITDB_ROOT_PASSWORD: thesis
+      MONGO_INITDB_DATABASE: stackoverflow
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo_data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--quiet", "--eval", "db.adminCommand('ping').ok"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+
+volumes:
+  postgres_data:
+  mongo_data:
